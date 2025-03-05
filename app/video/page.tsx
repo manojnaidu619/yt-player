@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { YouTubePlayer } from '@/components/YouTubePlayer';
+import { LocalStorageKeys } from '@/types/local-storage';
 import { Eye, TvMinimalPlay } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -14,7 +15,7 @@ export default function VideoPage() {
 
     useEffect(() => {
         setIsClient(true);
-        const savedUrl = localStorage.getItem('youtubeUrl');
+        const savedUrl = localStorage.getItem(LocalStorageKeys.youtubeUrl);
         if (!savedUrl) {
             router.replace('/');
             return;
@@ -23,12 +24,12 @@ export default function VideoPage() {
     }, []);
 
     const handleTimeUpdate = (time: number) => {
-        localStorage.setItem('playbackTime', time.toString());
+        localStorage.setItem(LocalStorageKeys.playbackTime, time.toString());
     };
 
     const handleEdit = () => {
-        localStorage.removeItem('youtubeUrl');
-        localStorage.removeItem('playbackTime');
+        localStorage.removeItem(LocalStorageKeys.youtubeUrl);
+        localStorage.removeItem(LocalStorageKeys.playbackTime);
         router.push('/');
     };
 
@@ -37,7 +38,7 @@ export default function VideoPage() {
     };
 
     // Get initial playback time
-    const initialTime = isClient ? parseFloat(localStorage.getItem('playbackTime') || '0') : 0;
+    const initialTime = isClient ? parseFloat(localStorage.getItem(LocalStorageKeys.playbackTime) || '0') : 0;
 
     if (!isClient || !videoUrl) {
         return (

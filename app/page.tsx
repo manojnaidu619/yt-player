@@ -6,6 +6,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { youtubeUrlSchema } from '@/lib/schemas';
+import { LocalStorageKeys, LocalStoragePlayerState } from '@/types/local-storage';
 import { HelpCircle, SquarePlay } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -31,8 +32,9 @@ export default function Home() {
             const initialTime = getInitialTimestamp(url);
 
             // Store in localStorage
-            localStorage.setItem('youtubeUrl', url);
-            localStorage.setItem('playbackTime', initialTime.toString());
+            localStorage.setItem(LocalStorageKeys.youtubeUrl, url);
+            localStorage.setItem(LocalStorageKeys.playbackTime, initialTime.toString());
+            localStorage.setItem(LocalStorageKeys.playerState, LocalStoragePlayerState.playing);
 
             // Navigate to video page
             router.push('/video');
@@ -71,15 +73,15 @@ export default function Home() {
                                                 https://youtube.com/watch?v=xxxxx
                                             </Badge>
                                             <Badge variant="outline" className="w-full justify-start text-xs font-mono">
-                                                https://youtube.com/xxxxx
+                                                https://youtu.be/xxxxx
                                             </Badge>
                                             <Badge variant="outline" className="w-full justify-start text-xs font-mono">
-                                                https://youtube.com/xxxxx?t=123
+                                                https://youtu.be/xxxxx?t=123
                                             </Badge>
                                         </div>
                                         <p className="text-xs text-muted-foreground">
                                             You can also include a timestamp (t=123) to start the video at a specific
-                                            time.
+                                            time
                                         </p>
                                     </div>
                                 </HoverCardContent>
@@ -94,8 +96,8 @@ export default function Home() {
                             required
                         />
                     </div>
-                    <Button type="submit" className="w-full">
-                        Play <SquarePlay />
+                    <Button type="submit" className="w-full gap-2">
+                        Play <SquarePlay className="h-4 w-4" />
                     </Button>
                 </form>
             </div>

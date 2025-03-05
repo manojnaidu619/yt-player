@@ -1,5 +1,6 @@
 'use client';
 
+import { LocalStorageKeys, LocalStoragePlayerState } from '@/types/local-storage';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -53,6 +54,9 @@ export function YouTubePlayer({ videoUrl, onTimeUpdate, initialTime = 0 }: YouTu
         // Always prioritize initialTime (stored playback time) over URL timestamp
         const actualStartTime = initialTime || startTime;
 
+        // Get the stored player state
+        const wasPlaying = localStorage.getItem(LocalStorageKeys.playerState) === LocalStoragePlayerState.playing;
+
         // Cleanup existing player if any
         if (playerRef.current) {
             playerRef.current.destroy();
@@ -61,13 +65,16 @@ export function YouTubePlayer({ videoUrl, onTimeUpdate, initialTime = 0 }: YouTu
         playerRef.current = new window.YT.Player(playerContainerRef.current, {
             videoId,
             playerVars: {
-                autoplay: 1,
+                autoplay: wasPlaying ? 1 : 0,
                 start: Math.floor(actualStartTime),
                 controls: 1,
             },
             events: {
                 onReady: (event) => {
-                    event.target.playVideo();
+                    // Only play if it was playing before
+                    if (wasPlaying) {
+                        event.target.playVideo();
+                    }
 
                     // Start tracking playback time
                     if (intervalRef.current) {
@@ -81,11 +88,19 @@ export function YouTubePlayer({ videoUrl, onTimeUpdate, initialTime = 0 }: YouTu
                         }
                     }, 2000);
                 },
-                onStateChange: () => {
+                onStateChange: (event) => {
                     // Update time when user seeks or plays/pauses
                     if (playerRef.current && onTimeUpdate) {
                         const currentTime = playerRef.current.getCurrentTime();
                         onTimeUpdate(currentTime);
+                    }
+
+                    // Store player state
+                    const state = event.data;
+                    if (state === window.YT.PlayerState.PLAYING) {
+                        localStorage.setItem(LocalStorageKeys.playerState, LocalStoragePlayerState.playing);
+                    } else if (state === window.YT.PlayerState.PAUSED) {
+                        localStorage.setItem(LocalStorageKeys.playerState, LocalStoragePlayerState.paused);
                     }
                 },
             },
