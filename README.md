@@ -6,9 +6,10 @@ This is a simple YT Player application built with [Next.js](https://nextjs.org)
 
 ## Packages used
 
--   TailwindCSS + Shdadcn/ui - For styling and frontend components
--   Zod - Form validation
--   Lucide - Icons
+-   `TailwindCSS + Shdadcn/ui` - For styling and frontend components
+-   `Zod` - Form validation
+-   `lucide-react` - Icons
+-   `next-themes` - Light & Dark mode
 
 ## Getting Started on local machine
 
