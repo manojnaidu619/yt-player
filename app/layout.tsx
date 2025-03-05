@@ -1,7 +1,6 @@
 import { Navbar } from '@/components/Navbar';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Toaster } from 'sonner';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -10,6 +9,23 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
     title: 'YT Player',
     description: 'A simple YouTube video player application',
+    openGraph: {
+        title: 'YT Player',
+        description: 'A simple YouTube video player application',
+        type: 'website',
+        images: [
+            {
+                url: '/opengraph-image.jpg',
+                alt: 'YT Player - A simple YouTube video player application',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'YT Player',
+        description: 'A simple YouTube video player application',
+        images: ['/opengraph-image.jpg'],
+    },
 };
 
 export default function RootLayout({
@@ -23,7 +39,6 @@ export default function RootLayout({
                 <Providers>
                     <Navbar />
                     <main className="flex-1 flex items-center justify-center">{children}</main>
-                    <Toaster />
                 </Providers>
             </body>
         </html>
