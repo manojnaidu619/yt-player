@@ -12,7 +12,7 @@ export default function GifPage() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowQuestion(true);
-        }, 4000);
+        }, 5000);
 
         return () => clearTimeout(timer);
     }, []);
