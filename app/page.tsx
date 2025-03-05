@@ -2,9 +2,9 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { youtubeUrlSchema } from '@/lib/schemas';
 import { LocalStorageKeys, LocalStoragePlayerState } from '@/types/local-storage';
 import { HelpCircle, SquarePlay } from 'lucide-react';
@@ -58,14 +58,14 @@ export default function Home() {
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <Label htmlFor="url">YouTube URL</Label>
-                            <HoverCard>
-                                <HoverCardTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-4 w-4 p-0">
-                                        <HelpCircle className="h-4 w-4" />
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="size-4 p-0">
+                                        <HelpCircle className="size-4" />
                                         <span className="sr-only">URL format info</span>
                                     </Button>
-                                </HoverCardTrigger>
-                                <HoverCardContent className="w-80">
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80">
                                     <div className="space-y-3">
                                         <h4 className="font-medium">Accepted URL formats:</h4>
                                         <div className="space-y-2">
@@ -84,8 +84,8 @@ export default function Home() {
                                             time
                                         </p>
                                     </div>
-                                </HoverCardContent>
-                            </HoverCard>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                         <Input
                             id="url"
